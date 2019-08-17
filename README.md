@@ -20,6 +20,7 @@ To compile it uses `ahk_compile` a modified version of [Ahk2Exe](https://github.
 
 # `build.ahkb`
 A script that builds the project. Should be in root dir of the project.
+Use `A_WorkingDir` instead of `A_ScriptDir`. Since `build.ahkb` will be included into another script in temp files.
 
 ## Functions
 	AhkCompile(AhkFile, ExeFile := "", CustomIcon := "", BinFile := "", UseMPRESS := "", ResourceFile := "", fileCP := "")
@@ -31,15 +32,15 @@ A script that builds the project. Should be in root dir of the project.
 	If not specified will be default icon
 * `BinFile` - AutoHotkeySC.bin path
 	If not specified compiler will first search if the path specified in config.ini of AhkBuilder, then it will search in /bin directory of AhkBuilder, last it will look in Autohotkey directory /Compiler
-* `UseMPRESS` - 1 use MPRESS, 0 don't use MPRESS. Default 0.
+* `UseMPRESS` - 1 use MPRESS, 0 don't use MPRESS. Default 0. Requires MPRESS. Compiler will first search if the path specified in config.ini of AhkBuilder, then it will search in root directory of AhkBuilder, last it will look in Autohotkey directory /Compiler
 * `ResourceFile` - Path to resource file `.rc` to be added. For example, change default version. Requires Resource Hacker. `ResourceHacker.exe` full path must be specified in config.ini at the root of AhkBuilder
 * `fileCP` - File encoding
 
 ## Example
 Example of `build.ahkb`
 
-	AhkCompile("src/script1.ahk", "build/executable1.exe", "src/Resources/asm.ico",, 1, "src/Resources/Version.rc") 
-	AhkCompile("src/script2.ahk", "build/executable2.exe", "src/Resources/asm.ico",, 1, "src/Resources/Version.rc") 
+	AhkCompile("src/script1.ahk", "build/executable1.exe", "src/Resources/icon.ico",, 1, "src/Resources/Version.rc") 
+	AhkCompile("src/script2.ahk", "build/executable2.exe", "src/Resources/icon.ico",, 1, "src/Resources/Version.rc") 
 
 # Commands
 ## `ahkb`
