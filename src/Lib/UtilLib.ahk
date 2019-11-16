@@ -5,26 +5,28 @@
 	}
 }
 
-Util_Error(txt, doexit=1, extra="")
+Util_Error(txt, doexit := 1, extra := "")
 {
-	global Error_ForceExit, ExeFileTmp
+	global CLIMode, Error_ForceExit, ExeFileTmp
 	
 	if ExeFileTmp && FileExist(ExeFileTmp)
 	{
 		FileDelete, %ExeFileTmp%
-		ExeFileTmp =
+		ExeFileTmp := ""
 	}
 	
 	if extra
-		txt .= "`n`tSpecifically: " extra
+		txt .= "`n`t" extra
 	
-	FileAppend, <%A_Hour%:%A_Min%:%A_Sec%:%A_MSec%> [ERROR] %txt%`n, *
+	FileAppend, <%A_Hour%:%A_Min%:%A_Sec%:%A_MSec%> [ERROR] %txt%`n, **
+	
+	SB_SetText("Ready")
 	
 	if doexit
 		if !Error_ForceExit
-			Exit, % Util_ErrorCode(txt)
+			Exit
 		else
-			ExitApp, % Util_ErrorCode(txt)
+			ExitApp
 }
 
 Util_ErrorCode(x)
@@ -108,8 +110,6 @@ Util_TempFile(d:="", ext := ".tmp")
 Util_GetFullPath(path)
 {
 	VarSetCapacity(fullpath, 260 * (!!A_IsUnicode + 1))
-	if DllCall("GetFullPathName", "str", path, "uint", 260, "str", fullpath, "ptr", 0, "uint")
-		return fullpath
-	else
-		return ""
+	if GetFullPathName(path, 260, fullpath, 0)
+		return fullpath,VarSetCapacity(fullpath,-1)
 }
